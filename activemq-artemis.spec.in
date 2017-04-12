@@ -9,7 +9,6 @@ Release:        0.%{_timestamp}.%{_short_commit}%{?dist}
 Summary:        A multi-protocol message broker
 License:        ASL 2.0
 URL:            https://activemq.apache.org/artemis/
-#Source:         http://github.com/apache/%{name}/tarball/%{_commit}/%{name}-%{_commit}.tar.gz
 Source:         https://github.com/apache/%{name}/archive/%{_commit}.tar.gz
 Requires:       java-1.8.0-openjdk
 Requires(pre):  shadow-utils

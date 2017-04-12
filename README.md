@@ -2,4 +2,4 @@
 
 ## Notes
 
-    sudo runuser -u activemq-artemis bin/artemis run
+    sudo runuser -u artemis artemis run
