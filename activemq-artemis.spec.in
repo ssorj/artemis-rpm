@@ -1,0 +1,111 @@
+%global _commit @commit@
+%global _short_commit %(c=%{_commit}; echo ${c:0:7})
+%global _timestamp %(date +"%Y%m%d")
+%global debug_package %{nil}
+
+Name:           activemq-artemis
+Version:        0
+Release:        0.%{_timestamp}.%{_short_commit}%{?dist}
+Summary:        A multi-protocol message broker
+License:        ASL 2.0
+URL:            https://activemq.apache.org/artemis/
+#Source:         http://github.com/apache/%{name}/tarball/%{_commit}/%{name}-%{_commit}.tar.gz
+Source:         https://github.com/apache/%{name}/archive/%{_commit}.tar.gz
+Requires:       java-1.8.0-openjdk
+Requires(pre):  shadow-utils
+BuildRequires:  cmake
+BuildRequires:  gcc-c++
+BuildRequires:  java-1.8.0-openjdk-devel
+BuildRequires:  libaio-devel
+BuildRequires:  maven
+
+# XXX systemd stuff
+#{?systemd_requires}
+#BuildRequires: systemd
+#
+#post
+#systemd_post apache-httpd.service
+#
+#preun
+#systemd_preun apache-httpd.service
+#
+#postun
+#systemd_postun_with_restart apache-httpd.service
+
+%description
+Apache ActiveMQ Artemis is a multi-protocol, embeddable, high
+performance, clustered, asynchronous message broker
+
+%prep
+%setup -qn %{name}-%{_commit}
+
+%pom_disable_module artemis-maven-plugin
+%pom_disable_module artemis-ra
+%pom_disable_module artemis-service-extensions
+%pom_disable_module artemis-web
+%pom_disable_module artemis-website
+%pom_disable_module examples
+%pom_disable_module integration/activemq-spring-integration
+%pom_disable_module tests
+
+%build
+mvn -Prelease -DskipTests -DskipStyleCheck -DskipLicenseCheck -Dmaven.javadoc.skip package
+
+%pre
+getent group artemis > /dev/null || groupadd -r artemis
+getent passwd artemis > /dev/null || \
+    useradd -r -g artemis -d %{_sharedstatedir}/artemis -s /sbin/nologin \
+    -c "ActiveMQ Artemis message broker" artemis
+
+%install
+home_dir=%{buildroot}%{_libdir}/artemis
+instance_dir=%{buildroot}%{_sharedstatedir}/artemis
+temp_dir=$(mktemp -d)
+
+mkdir -p %{buildroot}%{_bindir}
+mkdir -p %{buildroot}%{_libdir}
+mkdir -p %{buildroot}%{_localstatedir}/log
+mkdir -p %{buildroot}%{_localstatedir}/tmp
+mkdir -p %{buildroot}%{_sharedstatedir}
+mkdir -p %{buildroot}%{_sysconfdir}
+
+tar -xf artemis-distribution/target/apache-artemis-*-bin.tar.gz -C $temp_dir
+mv $temp_dir/apache-artemis-* $home_dir
+
+$home_dir/bin/artemis create --user admin --password admin --role admin --allow-anonymous $instance_dir
+
+sed 's|%{buildroot}||g' --in-place $instance_dir/etc/artemis.profile
+
+(
+    cd %{buildroot}/usr/bin
+    
+    ln -s ../..%{_sharedstatedir}/artemis/bin/artemis
+    ln -s ../..%{_sharedstatedir}/artemis/bin/artemis-service
+)
+
+(
+    cd $instance_dir
+    
+    mv etc %{buildroot}%{_sysconfdir}/artemis
+    mv log %{buildroot}%{_localstatedir}/log/artemis
+    mv tmp %{buildroot}%{_localstatedir}/tmp/artemis
+    
+    ln -s ../../..%{_sysconfdir}/artemis etc
+    ln -s ../../..%{_localstatedir}/log/artemis log
+    ln -s ../../..%{_localstatedir}/tmp/artemis tmp
+)
+
+rm -rf $temp_dir
+
+%files
+%defattr(-, root, root, -)
+%doc README.md
+%license LICENSE
+%attr(-, artemis, artemis) %{_localstatedir}/log/artemis
+%attr(-, artemis, artemis) %{_localstatedir}/tmp/artemis
+%attr(-, artemis, artemis) %{_sharedstatedir}/artemis
+%config(noreplace) %{_sysconfdir}/artemis
+%{_bindir}/*
+%{_libdir}/artemis
+
+%changelog
