@@ -1,0 +1,15 @@
+[Unit]
+Description=Apache ActiveMQ Artemis
+After=syslog.target network.target
+
+[Service]
+ExecStart=/usr/bin/artemis run
+Restart=on-failure
+User=artemis
+Group=artemis
+
+# XXX Workaround for bad signal handling
+SuccessExitStatus=143 
+
+[Install]
+WantedBy=multi-user.target
