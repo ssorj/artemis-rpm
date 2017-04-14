@@ -8,7 +8,7 @@ clean:
 .PHONY: test
 test: build/SRPMS/activemq-artemis-SNAPSHOT.src.rpm
 	rpmbuild -D "_topdir ${PWD}/build" --rebuild $<
-	@echo "Output: $$(find build/RPMS -type f)"
+	@echo "Output: ${PWD}/$$(find build/RPMS -type f)"
 
 build/commit:
 	@mkdir -p build
@@ -31,4 +31,4 @@ build/SRPMS/activemq-artemis-SNAPSHOT.src.rpm: build/SPECS/activemq-artemis.spec
 		build/SOURCES/artemis.service
 	rpmbuild -D "_topdir ${PWD}/build" -bs $<
 	cp build/SRPMS/activemq-artemis-*.src.rpm $@
-	@echo "Output: $@"
+	@echo "Output: ${PWD}/$@"

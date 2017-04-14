@@ -5,11 +5,11 @@
 
 Name:             activemq-artemis
 Version:          0
-Release:          0.%{_timestamp}.%{_short_commit}%{?dist}
+Release:          0.1.%{_timestamp}.%{_short_commit}%{?dist}
 Summary:          A multi-protocol message broker
+Group:            System Environment/Daemons
 License:          ASL 2.0
 URL:              https://activemq.apache.org/artemis/
-#Source0:          https://github.com/apache/%{name}/archive/%{_commit}.tar.gz
 Source0:          activemq-artemis-SNAPSHOT.tar.gz
 Source1:          artemis.service
 Requires:         java-1.8.0-openjdk
@@ -41,9 +41,8 @@ getent passwd artemis > /dev/null || useradd -r artemis \
 
 %post
 %systemd_post artemis.service
-
-semanage fcontext -a -t bin_t %{_localstatedir}/bin/artemis || :
-restorecon -v %{_localstatedir}/bin/artemis || :
+semanage fcontext -a -t bin_t %{_sharedstatedir}/artemis/bin/artemis
+restorecon -v %{_sharedstatedir}/artemis/bin/artemis
 
 %preun
 %systemd_preun artemis.service
