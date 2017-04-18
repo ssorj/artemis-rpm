@@ -61,10 +61,14 @@
 
 ## Installation
 
-Test RPMs are available for Fedora 24 and 25.
+Test RPMs are available for Fedora 24 and 25 from Fedora Copr.
 
     $ sudo dnf copr enable jross/ssorj
     $ sudo dnf install activemq-artemis
+
+See the
+[copr package](https://copr.fedorainfracloud.org/coprs/jross/ssorj/package/activemq-artemis/)
+for more information.
 
 To build your own RPM locally:
 
