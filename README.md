@@ -8,6 +8,7 @@
     # Start the server
     $ sudo systemctl start artemis
 
+    # Check its status
     $ systemctl status artemis
     ● artemis.service - Apache ActiveMQ Artemis
        Loaded: loaded (/usr/lib/systemd/system/artemis.service; disabled; vendor preset: disabled)
@@ -15,7 +16,7 @@
      Main PID: 1491 (java)
         Tasks: 62 (limit: 4915)
        CGroup: /system.slice/artemis.service
-               └─1491 java -XX:+PrintClassHistogram -XX:+UseG1GC -XX:+AggressiveOpts -XX:+UseFastAccessorMethods -Xms512M [...]
+               └─1491 java -XX:+PrintClassHistogram -XX:+UseG1GC -XX:+AggressiveOpts -XX:+UseFastAccesso [...]
 
     # Install artemis as an always-on service
     $ sudo systemctl enable artemis
@@ -23,16 +24,16 @@
     # Access the server logs
     $ journalctl -u artemis -f
     -- Logs begin at Sat 2016-12-24 17:16:41 PST. --
-    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,318 INFO  [org.apache.activemq.artemis.core.server] AMQ221003: [...]
-    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,576 INFO  [org.apache.activemq.artemis.core.server] AMQ221020: [...]
-    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,578 INFO  [org.apache.activemq.artemis.core.server] AMQ221020: [...]
-    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,579 INFO  [org.apache.activemq.artemis.core.server] AMQ221020: [...]
-    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,585 INFO  [org.apache.activemq.artemis.core.server] AMQ221020: [...]
-    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,587 INFO  [org.apache.activemq.artemis.core.server] AMQ221020: [...]
-    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,591 INFO  [org.apache.activemq.artemis.core.server] AMQ221007: [...]
-    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,591 INFO  [org.apache.activemq.artemis.core.server] AMQ221001: [...]
-    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,778 INFO  [org.apache.activemq.artemis] AMQ241001: HTTP Server [...]
-    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,778 INFO  [org.apache.activemq.artemis] AMQ241002: Artemis Jol [...]
+    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,318 INFO  [org.apache.activemq.artemis.c [...]
+    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,576 INFO  [org.apache.activemq.artemis.c [...]
+    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,578 INFO  [org.apache.activemq.artemis.c [...]
+    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,579 INFO  [org.apache.activemq.artemis.c [...]
+    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,585 INFO  [org.apache.activemq.artemis.c [...]
+    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,587 INFO  [org.apache.activemq.artemis.c [...]
+    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,591 INFO  [org.apache.activemq.artemis.c [...]
+    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,591 INFO  [org.apache.activemq.artemis.c [...]
+    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,778 INFO  [org.apache.activemq.artemis]  [...]
+    Apr 17 16:48:33 localhost.localdomain artemis[1491]: 16:48:33,778 INFO  [org.apache.activemq.artemis]  [...]
 
     # Query the package details
     $ rpm -qi activemq-artemis
