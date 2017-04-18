@@ -8,7 +8,7 @@
     # Start the server
     $ sudo systemctl start artemis
 
-    $ sudo systemctl status artemis
+    $ systemctl status artemis
     ● artemis.service - Apache ActiveMQ Artemis
        Loaded: loaded (/usr/lib/systemd/system/artemis.service; disabled; vendor preset: disabled)
        Active: active (running) since Mon 2017-04-17 16:48:32 PDT; 2s ago
@@ -88,10 +88,10 @@ system instance executable is installed on the path.
 
 ## File locations
 
- - /etc/artemis - System instance configuration files
- - /usr/bin/artemis - The system instance executable
  - /usr/lib64/artemis - Read-only Artemis code and resources
- - /var/lib/artemis - The default system instance
+ - /usr/bin/artemis - The system instance executable
+ - /etc/artemis - System instance configuration files
+ - /var/lib/artemis - System instance data files
  - /var/log/artemis - System instance log files
  - /var/tmp/artemis - System instance temporary files
  - /usr/lib/systemd/system/artemis.service - The systemd service file
