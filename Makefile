@@ -29,6 +29,7 @@ build/SOURCES/artemis.service: artemis.service
 build/SRPMS/activemq-artemis-SNAPSHOT.src.rpm: build/SPECS/activemq-artemis.spec \
 		build/SOURCES/activemq-artemis-SNAPSHOT.tar.gz \
 		build/SOURCES/artemis.service
+	rm -f build/SRPMS/*
 	rpmbuild -D "_topdir ${PWD}/build" -bs $<
 	cp build/SRPMS/activemq-artemis-*.src.rpm $@
 	@echo "Output: ${PWD}/$@"
