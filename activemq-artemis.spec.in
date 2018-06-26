@@ -69,7 +69,9 @@ mv $temp_dir/apache-artemis-* $home_dir
 $home_dir/bin/artemis create --user admin --password admin --role admin --allow-anonymous $instance_dir
 
 sed --in-place '18aARTEMIS_INSTANCE=%{_sharedstatedir}/artemis' $instance_dir/bin/artemis
+sed --in-place 's|%{buildroot}||g' $instance_dir/bin/artemis
 sed --in-place 's|%{buildroot}||g' $instance_dir/etc/artemis.profile
+sed --in-place 's|%{buildroot}||g' $instance_dir/etc/bootstrap.xml
 
 (
     cd %{buildroot}/usr/bin

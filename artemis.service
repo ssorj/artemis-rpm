@@ -3,6 +3,7 @@ Description=Apache ActiveMQ Artemis
 After=syslog.target network.target
 
 [Service]
+Environment=JAVA_ARGS="--add-modules java.xml.bind"
 ExecStart=/usr/bin/artemis run
 Restart=on-failure
 User=artemis
